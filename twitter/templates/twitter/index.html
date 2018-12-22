@@ -1,0 +1,14 @@
+<h1>Latest twits</h1>
+{% if latest_twit_list %}
+    <ul>
+        {% for twit in latest_twit_list %}
+            <li>
+                <h2>{{ twit.title }}</h2>
+                <p>{{ twit.text }}</p>
+                <p>{{ twit.pub_date }}</p>
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No twits are available.</p>
+{% endif %}
