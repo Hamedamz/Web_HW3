@@ -1,28 +1,18 @@
 from django.http import HttpResponse
 from django.template import loader
+from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from .models import Twit
-from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
 from django.views import generic
-from django import forms
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.models import User
-
-
-class SignUpForm(UserCreationForm):
-    first_name = forms.CharField(max_length=30, required=False, help_text='Optional.')
-    email = forms.EmailField(max_length=254, help_text='Required. Inform a valid email address.')
-
-    class Meta:
-        model = User
-        fields = ('username', 'first_name',  'email', 'password1', 'password2', )
+from . import forms
 
 
 class SignUp(generic.CreateView):
-    form_class = SignUpForm
+    form_class = forms.SignUpForm
     success_url = reverse_lazy('login')
     template_name = 'twitter/signup.html'
+
 
 @login_required
 def index(request):
@@ -32,3 +22,17 @@ def index(request):
         'latest_twit_list': latest_twit_list,
     }
     return HttpResponse(template.render(context, request))
+
+
+@login_required
+def send_twit(request):
+    if request.method == 'POST':
+        twit_form = forms.TwitForm(request.POST)
+        if twit_form.is_valid():
+            instance = twit_form.save(commit=False)
+            instance.user = request.user
+            instance.save()
+            return redirect('/')
+    else:
+        twit_form = forms.TwitForm()
+    return render(request, 'twitter/user.html', {'twit_form': twit_form})
