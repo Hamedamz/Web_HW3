@@ -5,10 +5,21 @@ from django.contrib.auth.decorators import login_required
 from .models import Twit
 from website import forms
 from user.models import Profile
+from api.models import Sess
 
 
 @login_required
 def index(request):
+    if request.method == 'POST':
+        try:
+            request.user.sess.generateAnotherKey()
+            request.user.sess.save()
+            return HttpResponse(request.user.sess.uid)
+        except:
+            sess = Sess(user=request.user)
+            sess.save()
+            return HttpResponse(sess.uid)
+
     latest_twit_list = Twit.objects.order_by('-pub_date')
     template = loader.get_template('twitter/index.html')
     try:

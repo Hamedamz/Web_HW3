@@ -18,3 +18,7 @@
 {% else %}
     <p>No Pic</p>
 {% endif %}
+<form method="post">
+    {% csrf_token %}
+    <input type="submit" value="get key!">
+</form>
