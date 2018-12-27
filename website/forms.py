@@ -1,8 +1,8 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-
-from . import models
+from user import models as usmodels
+from twitter import models
 
 
 class SignUpForm(UserCreationForm):
@@ -11,10 +11,16 @@ class SignUpForm(UserCreationForm):
 
     class Meta:
         model = User
-        fields = ('username', 'first_name',  'email', 'password1', 'password2', )
+        fields = ('username', 'first_name', 'email', 'password1', 'password2',)
 
 
 class TwitForm(forms.ModelForm):
     class Meta:
         model = models.Twit
         fields = ['title', 'text']
+
+
+class PicForm(forms.ModelForm):
+    class Meta:
+        model = usmodels.Profile
+        fields = ['pic']
