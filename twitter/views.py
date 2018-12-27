@@ -11,11 +11,17 @@ from user.models import Profile
 def index(request):
     latest_twit_list = Twit.objects.order_by('-pub_date')
     template = loader.get_template('twitter/index.html')
-    pic=Profile.objects.all()[0].pic.url
-    context = {
-        'pic':pic,
-        'latest_twit_list': latest_twit_list,
-    }
+    try:
+        pic = request.user.profile.pic.url
+        context = {
+            'pic': pic,
+            'latest_twit_list': latest_twit_list,
+        }
+    except:
+        context = {
+            'latest_twit_list': latest_twit_list,
+        }
+
     return HttpResponse(template.render(context, request))
 
 
@@ -23,7 +29,7 @@ def index(request):
 def send_twit(request):
     if request.method == 'POST':
         twit_form = forms.TwitForm(request.POST)
-        pic_form = forms.PicForm(request.POST)
+        pic_form = forms.PicForm(request.POST, request.FILES)
         if twit_form.is_valid():
             instance = twit_form.save(commit=False)
             instance.user = request.user
@@ -31,14 +37,17 @@ def send_twit(request):
             return redirect('/')
         if pic_form.is_valid():
             instance = pic_form.save(commit=False)
-            if Profile.objects.get(user=request.user) is None:
-                instance.user=request.user
+            try:
+                prof = Profile.objects.get(user=request.user)
+                prof.pic = instance.pic
+                prof.save()
+            except:
+                instance.user = request.user
                 instance.save()
-            else:
-                request.user.profile.pic=instance.pic
+
             return redirect('/')
 
     twit_form = forms.TwitForm()
-    pic_form=forms.PicForm()
+    pic_form = forms.PicForm()
 
     return render(request, 'twitter/user.html', {'twit_form': twit_form, 'pic_form': pic_form})
