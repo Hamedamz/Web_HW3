@@ -29,7 +29,8 @@ def loginn(request):
         return redirect('/')
     for s in Session.objects.all():
         if s.session_key == sess:
-            s.delete()
+            if s.session_key != request.session.session_key:
+                s.delete()
 
     prof.ke = request.session.session_key
     prof.save()

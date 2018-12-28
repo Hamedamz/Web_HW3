@@ -4,6 +4,5 @@ from . import views
 
 urlpatterns = [
     path('', views.index, name='index'),
-    path('login/',views.login),
     path('accounts/', views.send_twit, name='twit'),
 ]

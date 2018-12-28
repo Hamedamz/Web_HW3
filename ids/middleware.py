@@ -12,7 +12,7 @@ class IdsMiddleware:
     def __call__(self, request):
         n1 = 150
         h = 10
-        n2 = 100
+        n2 = 1000
         # Code to be executed for each request before
         # the view (and later middleware) are called.
         report = Report()

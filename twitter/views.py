@@ -65,8 +65,4 @@ def send_twit(request):
     return render(request, 'twitter/user.html', {'twit_form': twit_form, 'pic_form': pic_form})
 
 
-def login(request):
-    if Report.objects.filter(remote_address=request.META.get('REMOTE_ADDR')).order_by('-date_time')[0].nn > 15:
-        return redirect('/login2')
-    else:
-        return redirect('/a/login')
+
