@@ -4,7 +4,7 @@ from .models import Report
 
 
 class ReportAdmin(admin.ModelAdmin):
-    list_display = ('remote_address', 'user_agent', 'date_time')
+    list_display = ('remote_address', 'user_agent', 'date_time','nn')
 
 
 admin.site.register(Report, ReportAdmin)

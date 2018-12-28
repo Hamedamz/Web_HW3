@@ -4,10 +4,13 @@ from django.contrib.auth import authenticate
 from django.views.decorators.csrf import csrf_exempt
 from api.models import Sess
 from twitter.models import Twit
+from ids.models import Report
 
 
 @csrf_exempt
 def indexv1(request):
+    if Report.objects.filter(remote_address=request.META.get('REMOTE_ADDR')).order_by('-date_time')[0].nn>15:
+        return HttpResponse('Request Blocked')
     pas = request.POST.get('password')
     user = request.POST.get('username')
     userFound = authenticate(username=user, password=pas)
@@ -27,6 +30,10 @@ def indexv1(request):
 
 @csrf_exempt
 def twitingv1(request):
+    try:
+        request.session['ahmad'] = request.session['ahmad'] + 1
+    except:
+        request.session['ahmad'] = 0
     key = request.POST.get('key')
     try:
         ses = Sess.objects.get(uid__exact=key)
@@ -41,6 +48,4 @@ def twitingv1(request):
 
 
 def twitingv2(request):
-    user_agent = parse(request.META['HTTP_USER_AGENT'])
-    return HttpResponse(request.session[0])
-    # return HttpResponse(user_agent.browser)
+    return HttpResponse(request.session['ahmad'])
