@@ -126,5 +126,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
-LOGIN_REDIRECT_URL = '/accounts'
+LOGIN_REDIRECT_URL = '/logoutLastSessions'
 LOGIN_URL = '/login'
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True

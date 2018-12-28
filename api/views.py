@@ -1,6 +1,5 @@
 from django.http import HttpResponse
-from django.shortcuts import render
-from django.contrib.auth.models import User
+from user_agents import parse
 from django.contrib.auth import authenticate
 from django.views.decorators.csrf import csrf_exempt
 from api.models import Sess
@@ -35,20 +34,13 @@ def twitingv1(request):
         text = request.POST.get('text')
         twit = Twit(user=ses.user, title=title, text=text)
         twit.save()
+        # request.user.
         return HttpResponse('added')
     except:
         return HttpResponse('GFYS')
 
 
-@csrf_exempt
 def twitingv2(request):
-    key = request.POST.get('key')
-    try:
-        ses = Sess.objects.get(uid__exact=key)
-        title = request.POST.get('title')
-        text = request.POST.get('text')
-        twit = Twit(user=ses.user, title=title, text=text)
-        twit.save()
-        return HttpResponse('added')
-    except:
-        return HttpResponse('GFYS')
+    user_agent = parse(request.META['HTTP_USER_AGENT'])
+    return HttpResponse(request.session[0])
+    # return HttpResponse(user_agent.browser)
