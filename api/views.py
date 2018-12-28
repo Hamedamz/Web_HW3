@@ -29,10 +29,8 @@ def indexv1(request):
 
 @csrf_exempt
 def twitingv1(request):
-    try:
-        request.session['ahmad'] = request.session['ahmad'] + 1
-    except:
-        request.session['ahmad'] = 0
+    if Report.objects.filter(remote_address=request.META.get('REMOTE_ADDR')).order_by('-date_time')[0].nn>15:
+        return HttpResponse('Request Blocked')
     key = request.POST.get('key')
     try:
         ses = Sess.objects.get(uid__exact=key)

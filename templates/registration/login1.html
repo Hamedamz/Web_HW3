@@ -31,12 +31,9 @@
         <input type="submit" value="login"/>
         <input type="hidden" name="next" value="{{ next }}"/>
     </form>
-
+    <script src='https://www.google.com/recaptcha/api.js'></script>
+    <div class="g-recaptcha" data-sitekey="6LdwV4UUAAAAAF5lBuVtu9mS9nXW-wSlnE3yBr25"></div>
     {# Assumes you setup the password_reset view in your URLconf #}
-    <p><strong>OR</strong></p>
-      <a href="{% url 'social:begin' 'google-oauth2' %}">Login with Google</a><br>
-
-
     <p><a href="{% url 'password_reset' %}">Lost password?</a></p>
     <p><a href="{% url 'signup' %}">Sign Up</a></p>
     <p>{{request.body}}</p>
