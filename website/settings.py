@@ -105,11 +105,8 @@ SOCIAL_AUTH_PIPELINE = (
     'social.pipeline.debug.debug',
 )
 
-SOCIAL_AUTH_GOOGLE_OAUTH2_IGNORE_DEFAULT_SCOPE = True
-SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = [
-'https://www.googleapis.com/auth/userinfo.email',
-'https://www.googleapis.com/auth/userinfo.profile'
-]
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '225232722126-2e6psr8pbi6tmdtds7ckpe4v9ng1rt7d.apps.googleusercontent.com'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '1AGPtE4XjehSpVz5XtFLg2OD'
 
 WSGI_APPLICATION = 'website.wsgi.application'
 

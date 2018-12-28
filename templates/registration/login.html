@@ -36,6 +36,10 @@
     </form>
 
     {# Assumes you setup the password_reset view in your URLconf #}
+    <p><strong>OR</strong></p>
+      <a href="{% url 'social:begin' 'google-oauth2' %}">Login with Google</a><br>
+
+
     <p><a href="{% url 'password_reset' %}">Lost password?</a></p>
     <p><a href="{% url 'signup' %}">Sign Up</a></p>
     <p>{{request.body}}</p>

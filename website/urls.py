@@ -23,6 +23,7 @@ urlpatterns = [
     path('', include('twitter.urls')),
     path('', include('django.contrib.auth.urls')),
     path('signup/', views.SignUp.as_view(), name='signup'),
+    path('auth/', include('social_django.urls', namespace='social')),
     path('admin/', admin.site.urls),
     path('api/', include('api.urls')),
     path('logoutLastSessions/', views.loginn),

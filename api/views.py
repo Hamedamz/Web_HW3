@@ -1,5 +1,4 @@
 from django.http import HttpResponse
-from user_agents import parse
 from django.contrib.auth import authenticate
 from django.views.decorators.csrf import csrf_exempt
 from api.models import Sess
