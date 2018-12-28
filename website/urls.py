@@ -24,6 +24,7 @@ from django.contrib.auth import views as auth_views
 urlpatterns = [
     path('', include('twitter.urls')),
     url( 'login2/',auth_views.LoginView.as_view(template_name="registration/login1.html")),
+    path('login/',views.login),
     path('', include('django.contrib.auth.urls')),
     path('signup/', views.SignUp.as_view(), name='signup'),
     path('auth/', include('social_django.urls', namespace='social')),

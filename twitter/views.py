@@ -65,4 +65,3 @@ def send_twit(request):
     return render(request, 'twitter/user.html', {'twit_form': twit_form, 'pic_form': pic_form})
 
 
-
