@@ -33,7 +33,6 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'ids.apps.IdsConfig',
     'user.apps.UserConfig',
     'twitter.apps.TwitterConfig',
     'django.contrib.admin',
@@ -43,10 +42,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'api.apps.ApiConfig',
+    'ids.apps.IdsConfig',
 ]
 
 MIDDLEWARE = [
-    'ids.middleware.IdsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -54,6 +53,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'ids.middleware.IdsMiddleware',
 ]
 
 ROOT_URLCONF = 'website.urls'

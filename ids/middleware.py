@@ -7,13 +7,12 @@ class IdsMiddleware:
         # One-time configuration and initialization.
 
     def __call__(self, request):
+        # Code to be executed for each request before
+        # the view (and later middleware) are called.
         report = Report()
         report.remote_address = request.META.get('REMOTE_ADDR')
         report.user_agent = request.META.get('HTTP_USER_AGENT')
         report.save()
-        # Code to be executed for each request before
-        # the view (and later middleware) are called.
-
         response = self.get_response(request)
 
         # Code to be executed for each request/response after
