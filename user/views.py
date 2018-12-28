@@ -10,7 +10,9 @@ from ids.models import Report
 from website.forms import SignInForm
 from django.core.mail import send_mail
 from django.contrib.auth.models import User
-from django.http import HttpResponse
+from website import settings
+import urllib
+import json
 
 
 class SignUp(generic.CreateView):
@@ -39,13 +41,32 @@ def login(request):
             except:
                 pass
         if form.is_valid():
-            cd = form.cleaned_data
-            user = form.user
-            dj_login(request, user)
-            return redirect('/accounts')
+            if flag:
+                recaptcha_response = request.POST.get('g-recaptcha-response')
+                url = 'https://www.google.com/recaptcha/api/siteverify'
+                values = {
+                    'secret': settings.GOOGLE_RECAPTCHA_SECRET_KEY,
+                    'response': recaptcha_response
+                }
+                data = urllib.parse.urlencode(values).encode()
+                req =  urllib.request.Request(url, data=data)
+                response = urllib.request.urlopen(req)
+                result = json.loads(response.read().decode())
+                ''' End reCAPTCHA validation '''
+
+                if result['success']:
+                    cd = form.cleaned_data
+                    user = form.user
+                    dj_login(request, user)
+                    return redirect('/accounts')
+            else:
+                cd = form.cleaned_data
+                user = form.user
+                dj_login(request, user)
+                return redirect('/accounts')
+
     else:
         form = SignInForm()
-
     return render(request, 'registration/login.html', {
         'form': form,
         'captcha': flag
